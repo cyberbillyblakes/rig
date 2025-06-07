@@ -327,7 +327,50 @@
                                     <button id="ClaimAdwdress" class="text-sm text-red-600 hover:text-red-800 mr-2">Claim Address :</button>
                                     <input type="text" id="ClaimAddress" placeholder="Item name" maxlength="30" class="w-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
                                 </div>
-                                 
+                                <!-- SL -->
+<div class="flex items-center mb-2">
+    <div class="item-image mr-2" id="customItemImagePreview">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+    </div>
+    <label for="sl" class="text-sm text-red-600 hover:text-red-800 mr-2">SL:</label>
+    <input type="text" id="sl" placeholder="e.g. JOBYxxx" maxlength="30" class="w-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+</div>
+
+<!-- Client -->
+<div class="flex items-center mb-2">
+    <div class="item-image mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+    </div>
+    <label for="client" class="text-sm text-red-600 hover:text-red-800 mr-2">Company:</label>
+    <input type="text" id="client" placeholder="company name" maxlength="30" class="w-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+</div>
+
+<!-- Invoice -->
+<div class="flex items-center mb-2">
+    <div class="item-image mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h2l1 2h13l1-2h2M4 6h16M4 18h16M4 6V4a1 1 0 011-1h14a1 1 0 011 1v2M4 18v2a1 1 0 001 1h14a1 1 0 001-1v-2" />
+        </svg>
+    </div>
+    <label for="invoice" class="text-sm text-red-600 hover:text-red-800 mr-2">Invoice:</label>
+    <input type="text" id="invoice" placeholder="e.g. INV16018" maxlength="30" class="w-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+</div>
+
+<!-- Staff -->
+<div class="flex items-center mb-4">
+    <div class="item-image mr-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A4 4 0 015 16V6a2 2 0 012-2h10a2 2 0 012 2v10a4 4 0 01-.121.804M9 12h6M9 16h6" />
+        </svg>
+    </div>
+    <label for="staff" class="text-sm text-red-600 hover:text-red-800 mr-2">Staff:</label>
+    <input type="text" id="staff" placeholder="Staff name" maxlength="30" class="w-40 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500">
+</div>
+
                              </div>
                         </div>
                     </div>
@@ -655,6 +698,17 @@
         // Wait for the document to be fully loaded
            
         document.addEventListener('DOMContentLoaded', function() {
+                const slNumber = document.getElementById('sl').value.trim();
+                const client = document.getElementById('client').value;  // e.g. "ClientName"
+                const invoice = document.getElementById('invoice').value; // e.g. "INV16018"
+                const staff = document.getElementById('staff').value;    // e.g. "JohnDoe"
+
+              
+                // Prepend 'JOBY' to the SL number
+
+                const sl = `JOBY${slNumber}`;
+                // Sanitize and format the filename
+                const fileNamey = `${sl}_${client}_${invoice}_${staff}.pdf`;
                 const maxImages = 15; 
                 const imageUploadInput = document.getElementById('imageUploadInput');
                 const imageGalleryList = document.getElementById('imageGalleryList');
@@ -1773,6 +1827,10 @@
                 const subtotal = items.reduce((sum, item) => sum + item.total, 0);
                 const vat = subtotal * 0.15;
                 const total = subtotal + vat;
+
+                const ClaimAddress = document.getElementById('ClaimAddress').value;  // e.g. "ClientName"
+                const ClaimName = document.getElementById('ClaimName').value; // e.g. "INV16018"
+                const ClaimReference = document.getElementById('ClaimReference').value;    // e.g. "JohnDoe"
                 // Generate PDF preview content
                 const pdfContent = document.getElementById('pdfContent');
                     
@@ -1849,22 +1907,25 @@
                             <thead>
                                 <tr>
                                     <th>Item</th>
-                                    <th>Price</th>
                                     <th>Quantity</th>
+                                    <th>Price</th>
                                     <th>Total</th>
+                                    <th>BB-type</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${items.map(item => `
                                     <tr>
                                         <td>${item.name}</td>
-                                        <td>${formatPrice(item.price)}</td>
                                         <td>${item.quantity}</td>
+                                        <td>${formatPrice(item.price)}</td>
                                         <td>${formatPrice(item.total)}</td>
+                                        <td>BBcosts</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
                         </table>
+                        <p>Cost Summary</p>
                         <div class="totals">
                             <div><strong>Subtotal:</strong> ${formatPrice(subtotal)}</div>
                             <div><strong>VAT (15%):</strong> ${formatPrice(vat)}</div>
@@ -2031,10 +2092,10 @@
                 });
 
                 showToast('info', 'Generating PDF', 'Please wait while we generate your PDF...');
-
+                
                 doc.html(pdfContent, {
                     callback: function (doc) {
-                        doc.save('blockbusters-data.pdf');
+                        doc.save(fileNamey);
                         showToast('success', 'PDF Downloaded', 'Your PDF has been downloaded successfully!');
                     },
                     x: 10,
